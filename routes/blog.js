@@ -19,15 +19,18 @@ const router = express.Router()
 
 const BlogController = require('../controllers/blogController')
 
+const {protect}  = require('../midleware/authMidleware')
+
+
 
 router.get('/', BlogController.getBlogs )
 
-router.put('/:id', BlogController.editBlog )
+router.put('/:id',protect, BlogController.editBlog )
 
 // cpUpload : its a middleware function :  
-router.put('/image/:id',[cpUpload], BlogController.editImageBlog )
-router.post('/',[cpUpload], BlogController.addBlog )
-router.delete('/:id', BlogController.deleteBlog )
+router.put('/image/:id',[protect,cpUpload], BlogController.editImageBlog )
+router.post('/',[protect,cpUpload], BlogController.addBlog )
+router.delete('/:id',protect, BlogController.deleteBlog )
 
 
 module.exports = router

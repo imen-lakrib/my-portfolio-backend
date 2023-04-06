@@ -18,16 +18,17 @@ const cpUpload = upload.single('image')
 const router = express.Router()
 
 const ProjectController = require('../controllers/projectController')
+const {protect}  = require('../midleware/authMidleware')
 
 
 router.get('/', ProjectController.getProjects )
 
-router.put('/:id', ProjectController.editProject )
+router.put('/:id',protect, ProjectController.editProject )
 
 // cpUpload : its a middleware function :  
-router.put('/image/:id',[cpUpload], ProjectController.editImageProject )
-router.post('/',[cpUpload], ProjectController.addProject )
-router.delete('/:id', ProjectController.deleteProject )
+router.put('/image/:id',[protect,cpUpload], ProjectController.editImageProject )
+router.post('/',[protect,cpUpload], ProjectController.addProject )
+router.delete('/:id',protect, ProjectController.deleteProject )
 
 
 module.exports = router
