@@ -8,7 +8,7 @@ const {protect}  = require('../midleware/authMidleware')
 
 
 router.get('/me', protect, AdminController.getAdmin )
-router.post('/secretpannel', AdminController.registerAdmin )
+router.post('/register', AdminController.registerAdmin )
 router.post('/login', AdminController.loginAdmin )
 
 

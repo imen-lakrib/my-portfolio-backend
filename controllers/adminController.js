@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Generate JWT
-const generateJwt= (obj) => {
-    return jwt.sign({ ...obj }, process.env.JWT_SECRET, { expiresIn: "30d" })
+const generateJwt= (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" })
 }
 
 
@@ -29,7 +29,7 @@ var controller={
                 email,
                 password: hashedPassword,
             })
-            res.status(201).json({ message: `you are created a new user: ${email}` })
+            res.status(201).json({ message: `you are created a new user: ${user}` })
             
         } catch (error) {
             console.log(error)
@@ -62,6 +62,15 @@ var controller={
         try {
             const {_id, email}= await Admin.findById(req.user.id)
             res.status(200).json({ message: `welcome Mr: ${email}` })
+            // if (!req.user) {
+            //     return res.status(401).json({ message: "Unauthorized" });
+            // }
+            // const admin = await Admin.findById(req.user.id);
+            // if (!admin) {
+            //     return res.status(404).json({ message: "Admin not found" });
+            // }
+            // const {_id, email}= admin;
+            // res.status(200).json({ message: `welcome Mr: ${email}` });
         }
         catch (err) {
             console.log(err)

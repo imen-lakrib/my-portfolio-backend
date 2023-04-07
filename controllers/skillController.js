@@ -31,11 +31,16 @@ const controller={
 
     },
     editSkill:async(req,res)=>{
+
+
+        
         try {
             const currentSkill = await Skill.findById(req.params.id)
-            currentSkill.status= req.body.status
+            currentSkill.title= req.body.title
+            currentSkill.technologies = req.body.technologies
         await currentSkill.save()
         res.status(200).json({
+            message: `edited skill ${req.params.id}`
         })
             
         } catch (error) {
@@ -47,11 +52,15 @@ const controller={
     deleteSkill:async(req,res)=>{
         try {
             const currentSkill = await Skill.findById(req.params.id)
-        
-            await currentSkill.remove()
+    
+
+            if (!currentSkill) {
+                return res.status(404).json({ message: "skill not found" });
+            }
+            await Skill.deleteOne({ _id: req.params.id });
             res.status(200).json({
-                message: `delete currentSkill ${req.params.id}`
-            })
+                message: `Deleted skill ${req.params.id}`
+            });
             
         } catch (error) {
             console.log(error)

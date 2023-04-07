@@ -21,7 +21,7 @@ const controller={
             }
             const newProject = await Project.create({
                 link: req.body.link,
-                image: req.body.image,
+                image: req.file?.filename,
                 title: req.body.title,
                 technologies: req.body.technologies,
                 description: req.body.description,
@@ -38,9 +38,14 @@ const controller={
     editProject:async(req,res)=>{
         try {
             const currentProject = await Project.findById(req.params.id)
-            currentProject.status= req.body.status
+            currentProject.title=req.body.title
+            currentProject.description=req.body.description
+            currentProject.technologies=req.body.technologies
+            currentProject.link=req.body.link
+          
         await currentProject.save()
         res.status(200).json({
+            message: `edited blog ${req.params.id}`
         })
             
         } catch (error) {
@@ -52,13 +57,16 @@ const controller={
     deleteProject:async(req,res)=>{
         try {
             const currentProject = await Project.findById(req.params.id)
+            if (!currentProject) {
+                return res.status(404).json({ message: "project not found" });
+            }
             if(currentProject.image)
             fs.unlinkSync( __dirname +"/../public/uploads/"+ currentProject.image )
         
-            await currentProject.remove()
+            await Project.deleteOne({ _id: req.params.id });
             res.status(200).json({
-                message: `delete currentProject ${req.params.id}`
-            })
+                message: `Deleted project ${req.params.id}`
+            });
             
         } catch (error) {
             console.log(error)
@@ -71,7 +79,7 @@ const controller={
         try{
             console.log(req.file)
             const project = await Project.findById(req.params.id)
-            if(project.avatar)
+            if(project.image)
                 fs.unlinkSync( __dirname +"/../public/uploads/"+ project.image )
                 project.image = req.file.filename
            

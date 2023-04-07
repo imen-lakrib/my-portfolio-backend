@@ -36,9 +36,14 @@ const controller={
     editExperiance:async(req,res)=>{
         try {
             const currentExperiance = await Experiance.findById(req.params.id)
-            currentExperiance.status= req.body.status
+            currentExperiance.start=req.body.start
+            currentExperiance.title=req.body.title
+            currentExperiance.end=req.body.end
+            currentExperiance.company=req.body.company
+            currentExperiance.description=req.body.description
         await currentExperiance.save()
         res.status(200).json({
+            message: `edited experiance ${req.params.id}`
         })
             
         } catch (error) {
@@ -51,10 +56,15 @@ const controller={
         try {
             const currentExperiance = await Experiance.findById(req.params.id)
         
-            await currentExperiance.remove()
+    
+
+            if (!currentExperiance) {
+                return res.status(404).json({ message: "experiance not found" });
+            }
+            await Experiance.deleteOne({ _id: req.params.id });
             res.status(200).json({
-                message: `delete currentExperiance ${req.params.id}`
-            })
+                message: `Deleted experiance ${req.params.id}`
+            });
             
         } catch (error) {
             console.log(error)

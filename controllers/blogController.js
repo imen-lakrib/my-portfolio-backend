@@ -23,7 +23,7 @@ const controller={
                 title: req.body.title,
                 description: req.body.description,
                 technologies: req.body.technologies,
-                images: req.body.iamges,
+                image: req.file?.filename,
                 author: req.user._id,
             })
             res.status(200).json(newBlog)
@@ -37,27 +37,35 @@ const controller={
     editBlog:async(req,res)=>{
         try {
             const currentBlog = await Blog.findById(req.params.id)
-            currentBlog.status= req.body.status
+            currentBlog.title=req.body.title
+            currentBlog.description=req.body.description
+            currentBlog.technologies=req.body.technologies
+          
         await currentBlog.save()
         res.status(200).json({
+            message: `edited blog ${req.params.id}`
         })
             
         } catch (error) {
             console.log(error)
-            
+            res.status(500).json({ message: "Error editing blog" })
+
         }
 
     },
     deleteBlog:async(req,res)=>{
         try {
             const currentBlog = await Blog.findById(req.params.id)
+            if (!currentBlog) {
+                return res.status(404).json({ message: "blog not found" });
+            }
             if(currentBlog.image)
             fs.unlinkSync( __dirname +"/../public/uploads/"+ currentBlog.image )
         
-            await currentBlog.remove()
+            await Blog.deleteOne({ _id: req.params.id });
             res.status(200).json({
-                message: `delete currentBlog ${req.params.id}`
-            })
+                message: `Deleted blog ${req.params.id}`
+            });
             
         } catch (error) {
             console.log(error)

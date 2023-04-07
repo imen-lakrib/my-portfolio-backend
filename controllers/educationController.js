@@ -36,9 +36,14 @@ const controller={
     editEducation:async(req,res)=>{
         try {
             const currentEducation = await Education.findById(req.params.id)
-            currentEducation.status= req.body.status
+            currentEducation.start=req.body.start
+            currentEducation.title=req.body.title
+            currentEducation.end=req.body.end
+            currentEducation.university=req.body.university
+            currentEducation.description=req.body.description
         await currentEducation.save()
         res.status(200).json({
+            message: `edited education ${req.params.id}`
         })
             
         } catch (error) {
@@ -51,10 +56,13 @@ const controller={
         try {
             const currentEducation = await Education.findById(req.params.id)
         
-            await currentEducation.remove()
+            if (!currentEducation) {
+                return res.status(404).json({ message: "education not found" });
+            }
+            await Education.deleteOne({ _id: req.params.id });
             res.status(200).json({
-                message: `delete currentEducation ${req.params.id}`
-            })
+                message: `Deleted Education ${req.params.id}`
+            });
             
         } catch (error) {
             console.log(error)
