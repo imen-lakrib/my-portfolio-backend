@@ -76,20 +76,21 @@ const controller={
 
     },
     editImageProject : async(req, res)=>{
-        try{
-            console.log(req.file)
-            const project = await Project.findById(req.params.id)
-            if(project.image)
-                fs.unlinkSync( __dirname +"/../public/uploads/"+ project.image )
-                project.image = req.file.filename
-           
-            await project.save()
-            res.status(200).json({
-            })
-        }
-        catch(err){
-            console.log(err)
-        }
+        try {
+            console.log(req.file);
+            const project = await Project.findById(req.params.id);
+            if (project.image) {
+              const imagePath = __dirname + '/../public/uploads/' + project.image;
+              if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+              }
+            }
+            project.image = req.file.filename;
+            await project.save();
+            res.status(200).json({});
+          } catch (err) {
+            console.log(err);
+          }
         
     }
 }

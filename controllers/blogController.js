@@ -74,23 +74,44 @@ const controller={
         }
 
     },
-    editImageBlog : async(req, res)=>{
-        try{
-            console.log(req.file)
-            const blog = await Blog.findById(req.params.id)
-            if(blog.image)
-                fs.unlinkSync( __dirname +"/../public/uploads/"+ blog.image )
-                blog.image = req.file.filename
+    // editImageBlog : async(req, res)=>{
+    //     try{
+    //         console.log(req.file)
+    //         const blog = await Blog.findById(req.params.id)
+    //         if(blog.image)
+    //             // fs.unlinkSync( __dirname +"/../public/uploads/"+ blog.image )
+    //             blog.image = req.file.filename
            
-            await blog.save()
-            res.status(200).json({
-            })
-        }
-        catch(err){
-            console.log(err)
-        }
+    //         await blog.save()
+    //         res.status(200).json({
+    //         })
+    //     }
+    //     catch(err){
+    //         console.log(err)
+    //     }
         
-    }
+    // }
+    editImageBlog: async (req, res) => {
+        try {
+          console.log(req.file);
+          const blog = await Blog.findById(req.params.id);
+          if (blog.image) {
+            const imagePath = __dirname + '/../public/uploads/' + blog.image;
+            if (fs.existsSync(imagePath)) {
+              fs.unlinkSync(imagePath);
+            }
+          }
+          blog.image = req.file.filename;
+          await blog.save();
+          res.status(200).json({});
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      
+      
+      
+      
 }
 
 module.exports = controller
