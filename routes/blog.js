@@ -24,6 +24,7 @@ const {protect}  = require('../midleware/authMidleware')
 
 
 router.get('/', BlogController.getBlogs )
+router.get('/:id', BlogController.getSingleBlog )
 
 router.put('/:id',protect, BlogController.editBlog )
 

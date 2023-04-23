@@ -14,6 +14,18 @@ const controller={
         }
 
     },
+    getSingleBlog: async(req,res)=>{
+        try {
+            const currentBlog = await Blog.findById(req.params.id)
+            
+        res.status(200).json(currentBlog)
+            
+        } catch (error) {
+            console.log(error)
+            res.sendStatus(400)
+            
+        }
+    },
     addBlog:async(req,res)=>{
         try {
             if(!req.body.title || !req.body.description ){
