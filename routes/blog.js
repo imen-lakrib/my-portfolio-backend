@@ -6,6 +6,7 @@ const multer  = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, __dirname+'/../public/uploads/')
+      
     },
     filename: function (req, file, cb) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
     }
   })
 const upload = multer({ storage : storage })
-const cpUpload = upload.single('image')
+const cpUpload = upload.single('imen')
 
 const router = express.Router()
 

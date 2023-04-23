@@ -7,6 +7,7 @@ const controller={
         try {
             const blogs = await Blog.find()
             res.status(200).json(blogs)
+            // console.log(`get blogs: ${JSON.stringify(res)}`)
         } catch (error) {
             console.log(error)
             res.sendStatus(400)
@@ -19,10 +20,13 @@ const controller={
             const currentBlog = await Blog.findById(req.params.id)
             
         res.status(200).json(currentBlog)
+        console.log(req)
+        // console.log(`get single blog: ${JSON.stringify(res)}`)
             
         } catch (error) {
             console.log(error)
             res.sendStatus(400)
+            res.status(404).json(error)
             
         }
     },
@@ -35,9 +39,10 @@ const controller={
                 title: req.body.title,
                 description: req.body.description,
                 technologies: req.body.technologies,
-                image: req.file?.filename,
+                imen: req.file?.filename,
                 author: req.user._id,
             })
+            // console.log(`add blog: ${JSON.stringify(res)}`)
             res.status(200).json(newBlog)
             
         } catch (error) {
@@ -72,7 +77,7 @@ const controller={
                 return res.status(404).json({ message: "blog not found" });
             }
             if(currentBlog.image)
-            fs.unlinkSync( __dirname +"/../public/uploads/"+ currentBlog.image )
+            fs.unlinkSync( __dirname +"/../public/uploads/"+ currentBlog.imen )
         
             await Blog.deleteOne({ _id: req.params.id });
             res.status(200).json({
@@ -107,13 +112,13 @@ const controller={
         try {
           console.log(req.file);
           const blog = await Blog.findById(req.params.id);
-          if (blog.image) {
-            const imagePath = __dirname + '/../public/uploads/' + blog.image;
+          if (blog.imen) {
+            const imagePath = __dirname + '/../public/uploads/' + blog.imen;
             if (fs.existsSync(imagePath)) {
               fs.unlinkSync(imagePath);
             }
           }
-          blog.image = req.file.filename;
+          blog.imen = req.file.filename;
           await blog.save();
           res.status(200).json({});
         } catch (err) {

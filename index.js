@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(cors());
 // file name 
+
 app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
 // routes 
 app.use('/secretpannel', require('./routes/admin'))

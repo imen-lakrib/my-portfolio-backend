@@ -8,7 +8,7 @@ const blogSchema = mongoose.Schema({
     description: {
         type: String,
     },
-    image: {
+    imen: {
         type: String,
 
     },
