@@ -18,18 +18,17 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
 
-// // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'dist/')));
-
-// // Catch all routes and return the React app
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist/', 'index.html'));
-// });
-
-app.use(cors());
 // file name 
 
 app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'dist/')));
+
+// Catch all routes and return the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/', 'index.html'));
+});
 // routes 
 app.use('/secretpannel', require('./routes/admin'))
 app.use('/blog', require('./routes/blog'))
