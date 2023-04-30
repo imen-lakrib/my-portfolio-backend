@@ -29,7 +29,7 @@ app.get('*', (req, res) => {
 app.use(cors());
 // file name 
 
-app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
+// app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
 // routes 
 app.use('/secretpannel', require('./routes/admin'))
 app.use('/blog', require('./routes/blog'))
