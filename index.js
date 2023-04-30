@@ -18,20 +18,12 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
 
-// file name 
-
-app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
-
-
-
-// Catch all routes and return the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/', 'index.html'));
-});
 
 
 app.use(cors());
+// file name 
 
+app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
 // routes 
 app.use('/secretpannel', require('./routes/admin'))
 app.use('/blog', require('./routes/blog'))
