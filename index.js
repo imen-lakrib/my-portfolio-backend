@@ -38,9 +38,7 @@ app.use('/project', require('./routes/project'))
 app.use('/skill', require('./routes/skill'))
 
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/', 'index.html'));
-});
+
 
 
 app.listen(Port, ()=> console.log(`connect in port ${Port}`))
