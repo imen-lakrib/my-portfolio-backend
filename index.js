@@ -22,8 +22,7 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'dist/')));
+
 
 // Catch all routes and return the React app
 app.get('*', (req, res) => {
