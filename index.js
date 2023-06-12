@@ -29,13 +29,13 @@ app.use(express.static(path.join(__dirname,'public'), {dotfiles: "allow"}))
 
 
 // routes 
-app.use('/secretpannel', require('./routes/admin'))
-app.use('/blog', require('./routes/blog'))
-app.use('/contact', require('./routes/contact'))
-app.use('/education', require('./routes/education'))
-app.use('/experiance', require('./routes/experiance'))
-app.use('/project', require('./routes/project'))
-app.use('/skill', require('./routes/skill'))
+app.use('/api/secretpannel', require('./routes/admin'))
+app.use('/api/blog', require('./routes/blog'))
+app.use('/api/contact', require('./routes/contact'))
+app.use('/api/education', require('./routes/education'))
+app.use('/api/experiance', require('./routes/experiance'))
+app.use('/api/project', require('./routes/project'))
+app.use('/api/skill', require('./routes/skill'))
 
 
 
