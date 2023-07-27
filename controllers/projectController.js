@@ -5,7 +5,7 @@ const fs = require('fs')
 const controller={
     getProjects:async(req,res)=>{
         try {
-            const projects = await Project.find()
+            const projects = await Project.find().sort({ _id: -1 })
             res.status(200).json(projects)
         } catch (error) {
             console.log(error)
